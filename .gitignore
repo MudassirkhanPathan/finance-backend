@@ -1,5 +1,4 @@
 # Environment variables
-.env
 
 # Node modules
 node_modules/
@@ -17,4 +16,4 @@ dist/
 build/
 
 # Optional
-.vscode/
+config.bat

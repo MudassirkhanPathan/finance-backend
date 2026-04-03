@@ -30,7 +30,7 @@ const options = {
         },
       },
 
-      // 🔥 FULL SCHEMAS (YOUR DB MATCHED)
+      //  FULL SCHEMAS (YOUR DB MATCHED)
       schemas: {
         User: {
           type: "object",
