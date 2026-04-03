@@ -12,6 +12,10 @@ const options = {
 
     servers: [
       {
+        url: "https://finance-backend-ti9j.onrender.com",
+        description: "Production Server",
+      },
+      {
         url: `http://localhost:${process.env.PORT || 3000}`,
         description: "Local Server",
       },

@@ -6,15 +6,21 @@ const { swaggerSpec, swaggerUi } = require("./swagger");
 
 const app = express();
 
-//  Middlewares
-app.use(cors());
+//   CORS (production safe)
+app.use(
+  cors({
+    origin: "*",
+  }),
+);
+
+// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//  Swagger Route
+//   Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-//  Health Check
+//   Health check
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
@@ -22,16 +28,23 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Base Route
+//   Root route (important for Render)
+app.get("/", (req, res) => {
+  res.send("Finance Backend API is Live");
+});
+
+//   API base route
 app.get("/api", (req, res) => {
   res.send("Finance Backend API Running");
 });
 
-//  Routes
+//   Routes (ONLY ONCE + with dbCheck)
 const routes = require("./routes/routes");
+app.use("/api", dbCheck, routes);
+
 app.use("/api", routes);
 
-// 404
+//   404 handler
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -39,10 +52,7 @@ app.use((req, res) => {
   });
 });
 
-//DB Check
-app.use("/api", dbCheck, routes);
-
-// Global Error
+//   Global error handler
 app.use((err, req, res, next) => {
   console.error(err);
 
